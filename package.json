@@ -1,0 +1,16 @@
+{
+  "name": "sketch-deck",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Hand-drawn animated decks for talking-head videos. You present them live and record.",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "new": "node scripts/new-video.mjs",
+    "shots": "node scripts/shots.mjs",
+    "serve": "npx --yes serve@14 -l 8812 ."
+  },
+  "devDependencies": {
+    "playwright-core": "^1.63.0"
+  }
+}
