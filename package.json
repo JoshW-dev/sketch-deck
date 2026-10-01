@@ -7,6 +7,7 @@
   "license": "MIT",
   "scripts": {
     "new": "node scripts/new-video.mjs",
+    "open": "node scripts/open.mjs",
     "shots": "node scripts/shots.mjs",
     "serve": "npx --yes serve@14 -l 8812 ."
   },

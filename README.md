@@ -20,7 +20,7 @@ Hand-drawn animated decks for talking-head videos. You write each part of the ta
 ```bash
 git clone https://github.com/JoshW-dev/sketch-deck
 cd sketch-deck
-open -a "Google Chrome" videos/ai-bottleneck/index.html
+npm run open -- ai-bottleneck
 ```
 
 There's no build step. The fonts and rough.js live in `engine/`, so a plain file open works offline.
@@ -31,7 +31,7 @@ There's no build step. The fonts and rough.js live in `engine/`, so a plain file
 npm run new -- my-topic "My topic in one line"
 ```
 
-That creates `videos/my-topic/` with `index.html`, `content.js` and `outline.md`. Write the outline first: one sentence for the point, then four to six parts of about 50 seconds each. Then write each part in `content.js`. `CLAUDE.md` has the layout rules if a coding agent is writing the parts for you.
+That creates `videos/my-topic/` with `index.html`, `content.js` and `outline.md`, and `npm run open -- my-topic` opens it in Chrome. Write the outline first: one sentence for the point, then four to six parts of about 50 seconds each. Then write each part in `content.js`. `CLAUDE.md` has the layout rules if a coding agent is writing the parts for you.
 
 ## Writing a part
 
@@ -100,7 +100,7 @@ This renders the board, every part, and a GIF of one part building, using the Ch
 engine/      deck.js (drawing, animation, navigation), deck.css, rough.js, fonts
 videos/      one folder per video: index.html, content.js, outline.md
 templates/   the starting point for npm run new
-scripts/     new-video.mjs and shots.mjs
+scripts/     new-video.mjs, open.mjs and shots.mjs
 docs/        screenshots
 ```
 
