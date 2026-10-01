@@ -301,7 +301,7 @@ function mountDom(nParts) {
   <div><b>0</b> board</div>
   <div><b>F</b> full screen</div>
   <div><b>P</b> presenter notes window</div>
-  <div><b>H</b> hide step counter</div>
+  <div><b>H</b> show or hide the step counter</div>
   <div><b>G</b> camera-box guide</div>
   <div><b>R</b> restart from the board</div>
   <div><b>?</b> this help</div>
@@ -443,7 +443,7 @@ async function startDeck({ board: BOARD, parts: PARTS }) {
     else if (k === '0') toBoard();
     else if (/^[1-9]$/.test(k) && +k <= PARTS.length) enterPart(+k - 1, 0);
     else if (k === 'f') document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
-    else if (k === 'h') document.body.classList.toggle('nohud');
+    else if (k === 'h') document.body.classList.toggle('showhud');
     else if (k === 'g') document.body.classList.toggle('guides');
     else if (k === '?') document.body.classList.toggle('help');
     else if (k === 'r') restart();

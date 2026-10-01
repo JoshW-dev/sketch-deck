@@ -72,7 +72,7 @@ The canvas is 1920x1080. Keep content left of x 1540.
 | 1 to 9, 0 | Jump to a part, or to the board |
 | F | Full screen |
 | P | Presenter window with your notes for each step. Keys typed there drive the deck |
-| H | Hide the step counter |
+| H | Show or hide the step counter (hidden by default) |
 | G | Show where the camera box goes |
 | R | Restart from the board |
 | ? | Help |

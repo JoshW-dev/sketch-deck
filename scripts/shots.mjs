@@ -28,7 +28,6 @@ async function open(contextOptions) {
   const created = Date.now();
   await page.goto(url);
   await page.waitForFunction(() => window.deck?.ready);
-  await page.keyboard.press('h'); // hide the step counter
   return { ctx, page, created };
 }
 

@@ -13,7 +13,7 @@ body.board .slide { border-radius:28px; box-shadow:0 0 0 2px rgba(0,0,0,.04), 0 
 body.board .slide.unseen > svg { filter:blur(22px); opacity:.5; }
 
 #hud { position:absolute; right:30px; bottom:16px; font-size:24px; color:var(--hud); pointer-events:none; transition:opacity .3s; }
-body.nohud #hud { opacity:0; }
+body:not(.showhud) #hud { opacity:0; }
 
 #guides { position:absolute; inset:0; pointer-events:none; display:none; }
 body.guides #guides { display:block; }
