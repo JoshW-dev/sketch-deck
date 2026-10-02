@@ -349,7 +349,7 @@ async function startDeck({ board: BOARD, parts: PARTS }) {
   const W = COLS * 1920 + (COLS - 1) * GAP;
   const H = TOP + ROWS * 1080 + (ROWS - 1) * GAP;
   const SB = Math.min(1500 / W, 960 / H);
-  const BOARD_CAM = { s: SB, x: W / 2 + (960 - 810) / SB, y: H / 2 };
+  const BOARD_CAM = { s: SB, x: W / 2, y: H / 2 };
 
   const stage = document.getElementById('stage');
   const world = document.getElementById('world');
