@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Thumbnail: Put AI on the bottleneck</title>
+<link rel="stylesheet" href="../../engine/fonts.css">
+<style>
+  html, body { margin: 0; background: #ffffff; }
+  svg { display: block; width: 1280px; height: 720px; }
+</style>
+</head>
+<body>
+<!-- 1280x720 YouTube thumbnail. Variants: #a (default) and #b. Render with: npm run thumb -- ai-bottleneck -->
+<svg id="t" viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="../../engine/rough.js"></script>
+<script src="../../engine/deck.js"></script>
+<script>
+const svg = document.getElementById('t');
+const variant = (location.hash.slice(1) || 'a').toLowerCase();
+
+function layer(transform) {
+  const g = mk('g', transform ? { transform } : {}, svg);
+  return new Builder(g, 7);
+}
+
+// Width of a line of Excalifont text at a size, measured once the font has loaded.
+function width(str, size) {
+  const probe = mk('text', { 'font-family': 'Excalifont', 'font-size': size }, svg);
+  probe.textContent = str;
+  const w = probe.getComputedTextLength();
+  probe.remove();
+  return w;
+}
+
+function drawA() {
+  mk('rect', { width: 1280, height: 720, fill: PAL.yellow[1] }, svg);
+  const b = layer();
+  // "FIX THIS FIRST" on one line, centred, with THIS in red
+  const size = 132, gap = size * 0.32;
+  const parts = [['FIX', INK], ['THIS', RED], ['FIRST', INK]];
+  const total = parts.reduce((t, [w]) => t + width(w, size), 0) + gap * 2;
+  let x = (1280 - total) / 2, thisMid = 0;
+  parts.forEach(([w, color]) => {
+    b.text(x, 178, w, { size, color });
+    if (color === RED) thisMid = x + width(w, size) / 2;
+    x += width(w, size) + gap;
+  });
+
+  const xs = [40, 350, 660, 970], names = ['Leads', 'Sales', 'Delivery', 'Admin'];
+  xs.forEach((x, i) => {
+    b.rect(x, 390, 250, 130, { fill: '#ffffff', sw: 3.4 });
+    b.text(x + 125, 472, names[i], { anchor: 'middle', size: 52 });
+    if (i < 3) b.arrow(x + 258, 455, xs[i + 1] - 8, 455, { sw: 3, head: 16 });
+  });
+  b.ellipse(165, 455, 318, 222, { stroke: RED, sw: 7, rough: 1.2 });
+  b.curveArrow([[thisMid - 30, 214], [thisMid - 150, 280], [260, 338]], { stroke: RED, sw: 7, head: 26 });
+  b.text(165, 640, 'bottleneck', { anchor: 'middle', size: 58, color: RED });
+
+  // where AI usually goes, crossed out
+  b.rect(1015, 262, 160, 74, { fill: '#ffffff', sw: 3, r: 16 });
+  b.sparkle(1054, 299, 21);
+  b.text(1122, 316, 'AI', { anchor: 'middle', mono: true, size: 46 });
+  b.cross(1048, 252, 94, { sw: 7 });
+  b.text(1095, 590, 'where AI\nusually goes', { anchor: 'middle', size: 40, color: GRAY, lh: 1.1 });
+}
+
+function drawB() {
+  mk('rect', { width: 1280, height: 720, fill: PAL.yellow[1] }, svg);
+  const b = layer();
+  b.text(48, 142, 'SAVES 18 MIN', { size: 104, color: GREEN });
+  b.text(48, 298, 'MAKES $0', { size: 152, color: RED });
+
+  // the $100 mixer from part 2, large on the right, with an AI sparkle
+  const m = layer('translate(-844,-448) scale(1.35)');
+  m.path('M1352,700 L1340,610 L1480,610 L1468,700 Z', { fill: '#ffffff', sw: 2.4 });
+  m.lpath([[1382, 668], [1410, 648], [1438, 668]], { sw: 2.4 });
+  m.rect(1336, 700, 148, 92, { fill: '#e9ecef', r: 10, sw: 2.4 });
+  m.ellipse(1410, 746, 30, 30, { fill: '#ffffff' });
+  m.sparkle(1490, 598, 22);
+  m.rect(1355, 812, 110, 44, { fill: PAL.red[1], r: 8, sw: 2 });
+  m.text(1410, 843, '$100', { anchor: 'middle', mono: true, size: 26 });
+
+  // lemonade stand, bottom left
+  const s = layer('translate(-96,40) scale(0.92)');
+  let d = 'M185,300 H495 L540,370';
+  for (let i = 0; i < 8; i++) { const x = 540 - i * 50; d += ` Q${x - 25},398 ${x - 50},370`; }
+  s.path(d + ' Z', { fill: '#ffffff', sw: 2.6 });
+  s.line(175, 378, 175, 560, { sw: 3.4 });
+  s.line(505, 378, 505, 560, { sw: 3.4 });
+  s.rect(150, 560, 380, 170, { fill: '#ffffff', r: 6, sw: 2.6 });
+  s.text(340, 666, 'LEMONADE', { anchor: 'middle', size: 56 });
+  s.path('M222,468 L296,468 L288,558 L230,558 Z', { fill: '#fff3bf' });
+  [328, 374, 420].forEach(x => s.path(`M${x},516 L${x + 32},516 L${x + 28},558 L${x + 4},558 Z`, { fill: '#ffffff' }));
+  s.ellipse(478, 542, 40, 30, { fill: '#ffe066' });
+
+  // sales don't move
+  b.text(520, 480, 'cups sold', { size: 38, color: GRAY });
+  b.text(520, 556, '20 →', { mono: true, size: 66 });
+  b.text(740, 556, '20', { mono: true, size: 66, color: RED });
+}
+
+document.fonts.ready.then(() => {
+  (variant === 'b' ? drawB : drawA)();
+  document.body.dataset.ready = '1';
+});
+
+</script>
+</body>
+</html>
