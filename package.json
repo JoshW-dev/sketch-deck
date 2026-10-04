@@ -9,7 +9,8 @@
     "new": "node scripts/new-video.mjs",
     "open": "node scripts/open.mjs",
     "shots": "node scripts/shots.mjs",
-    "serve": "npx --yes serve@14 -l 8812 ."
+    "serve": "npx --yes serve@14 -l 8812 .",
+    "thumb": "node scripts/thumb.mjs"
   },
   "devDependencies": {
     "playwright-core": "^1.63.0"

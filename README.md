@@ -85,6 +85,15 @@ A reload keeps your place. Add `?demo` to the URL for on-screen arrows, and on a
 2. Record with a tool that saves screen and camera as separate tracks, so you can place the camera in the edit. Loom works too: press G and put its bubble inside the dashed box.
 3. Record one part per take.
 
+## After recording
+
+`post/` turns a Take recording into an upload. The voice is rebuilt with dereverb and voice restoration, and "um"s, restarts and dead air are cut. The file comes out as 16:9 at 1440p, with captions, chapter points and a review page. Mac only. See [post/README.md](post/README.md).
+
+```bash
+post/make.sh prep "<recording>.take" "02 my-topic"
+post/make.sh finish "02 my-topic" "My topic"
+```
+
 ## Screenshots and GIFs
 
 ```bash
@@ -94,13 +103,24 @@ npm run shots -- ai-bottleneck --gif 2
 
 This renders the board, every part, and a GIF of one part building, using the Chrome you already have. Files land in `docs/screenshots/<slug>/`.
 
+## Thumbnails
+
+Write `videos/<slug>/thumbnail.html` as a 1280x720 SVG drawn with the same `Builder` as the deck (see `videos/ai-bottleneck/thumbnail.html`, which has two variants, `#a` and `#b`). Then render it:
+
+```bash
+npm run thumb -- ai-bottleneck a b
+```
+
+That writes `thumbnail-a.png` and `thumbnail-b.png` next to the page, at the size YouTube asks for.
+
 ## What's where
 
 ```
 engine/      deck.js (drawing, animation, navigation), deck.css, rough.js, fonts
 videos/      one folder per video: index.html, content.js, outline.md
 templates/   the starting point for npm run new
-scripts/     new-video.mjs, open.mjs and shots.mjs
+scripts/     new-video.mjs, open.mjs, shots.mjs and thumb.mjs
+post/        post-production: voice cleanup, cuts, render, captions, review page
 docs/        screenshots
 ```
 
