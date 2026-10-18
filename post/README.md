@@ -36,6 +36,25 @@ open ~/Movies/"Josh Wade AI"/"02 my-topic"/review.html
    - Picture stays within half a frame (17 ms) of the sound at every cut.
    - It writes the `.srt` and prints the measured sync, loudness and chapter points. A chapter point is where the deck leaves the board for a part.
 7. **review.py**: writes `review.html` with the raw mic and the final voice on the same 30 s, the final video with a button for every cut, and the thumbnails.
+8. **shorts.py**: vertical shorts from the finished video, see "Shorts" below.
+
+## Shorts
+
+`post/make.sh shorts "02 my-topic"` turns the finished video into vertical shorts (1080x1920): the slide on top, the camera in the bottom third, a hook line that plays first, captions, and a card with the hook text that stays up the whole time. Run `finish` first, because it writes `work/keep.json` and `work/final-words.json`.
+
+1. The first run writes `work/shorts-transcript.txt`, one sentence per line with its time in the final video.
+2. Pick the shorts into `work/shorts.json` (format in the header of `shorts.py`). Times are final-video times, the same as YouTube's.
+3. Run it again. It writes `shorts/<n> <slug>.mp4`, a contact sheet per short and `shorts.md`. Render one with `make.sh shorts "02 my-topic" 2`. Each takes about 10 to 20 s.
+4. Look at the contact sheets, then watch the files. The printout gives length, loudness and sync against the camera's own mic, which should stay within about 20 ms.
+
+How to pick (the hook matters most, because it decides whether anyone keeps watching):
+
+- **Body:** one whole idea with its payoff, 30 s to 3 min. Start on a sentence a stranger can follow with no context, without "so", "and" or "like I said". End on the payoff line. A body can be several spans when a tangent sits in the middle.
+- **Hook:** a 2 to 4 s line, usually lifted from later in the body, that plays before the body starts. It has to work cold and do one of five things: break a pattern, make a bold claim, open a question the body answers, speak to the viewer's situation, or give a surprising number. A hook that repeats in the body is fine, because the body pays it off. To drop a filler word inside the hook, give it as a list of spans. An `=` before a time (`"=5:06.45"`) keeps that edge exactly where it is, for when the silence search would reach into the dropped word.
+- **Card:** up to about 12 words that state the video's main idea for the viewer's business, with `*stars*` around the words to draw in orange. Keep the example (the lemonade stand, the plant) in the body. On video 01 the lemonade short's card is "Why most businesses use AI on the wrong problem", and the $100 mixer stays in what Josh says. Only claim what the short supports. Highstyle's most-liked complaints were titles that didn't match the clip.
+- **Frame 0 is the cover** in the Shorts feed, so the hook should start on a slide that already shows something.
+
+What the script does: it maps each span from the final video back to Take's `screen.mov` and `camera.mov` through `keep.json` and Take's cuts. It moves each edge into the quietest 10 ms nearby, searching further back at a start and further on at an end, since Whisper's times run late. It crops the slide to everything drawn during the short (never right of x 1560 on the deck canvas) and finds the face with OpenCV for the camera crop. Set `"face": [cx, cy, width]` in `shorts.json` to place it by hand. The layout is composed in RGB, because overlaying the screen's YUV on a YUV page shifted the slide's white by 3 levels and drew a box around it.
 
 ## Also part of a release
 

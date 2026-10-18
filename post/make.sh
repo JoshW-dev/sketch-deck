@@ -4,6 +4,8 @@
 #   post/make.sh prep   "<recording>.take" "<NN slug>" ["terms for Whisper"]
 #   (review the list it prints, add hand cuts to work/edl.json "manual")
 #   post/make.sh finish "<NN slug>" "<Title>"
+#   post/make.sh shorts "<NN slug>" [n]   (first run writes work/shorts-transcript.txt; pick into
+#                                          work/shorts.json, then run again to render)
 #
 # Everything lands in ~/Movies/Josh Wade AI/<NN slug>/.
 set -e
@@ -30,6 +32,9 @@ case $1 in
     "$PY" "$HERE/render.py" "$WORK" "$3"
     "$PY" "$HERE/review.py" "$WORK" "$3"
     ;;
+  shorts)
+    "$PY" "$HERE/shorts.py" "$ROOT/$2/work" ${3:-}
+    ;;
   *)
-    sed -n '2,9p' "$0"; exit 1 ;;
+    sed -n '2,11p' "$0"; exit 1 ;;
 esac

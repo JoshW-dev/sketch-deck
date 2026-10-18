@@ -2,7 +2,7 @@
 in edl.json in one encode, then write captions and list chapter points.
 
 Usage: ~/.cache/sketch-deck-post/venv-audio/bin/python post/render.py <workdir> "<Title>"
-Writes "<workdir>/../<Title> (final).mp4" and ".srt", <workdir>/final-words.json and cuts-final.json."""
+Writes "<workdir>/../<Title> (final).mp4" and ".srt", <workdir>/final-words.json, cuts-final.json and keep.json."""
 import json
 import subprocess
 import sys
@@ -41,6 +41,7 @@ for c in cuts:
         keep.append((t, c["start"]))
     t = max(t, c["end"])
 keep.append((t, dur))
+save(work / "keep.json", keep)  # the export-timeline pieces of the final cut, for shorts.py
 
 # Video and audio are joined separately: one joint concat pads the audio to each piece's video
 # length and drifts (+31 ms by the end on video 01). Each video piece starts on the source frame

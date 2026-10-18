@@ -47,4 +47,5 @@ def words(path):
 
 
 def mmss(t):
+    t = round(t, 2)
     return f"{int(t // 60)}:{t % 60:05.2f}"
