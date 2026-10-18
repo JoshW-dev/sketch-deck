@@ -56,6 +56,22 @@ How to pick (the hook matters most, because it decides whether anyone keeps watc
 
 What the script does: it maps each span from the final video back to Take's `screen.mov` and `camera.mov` through `keep.json` and Take's cuts. It moves each edge into the quietest 10 ms nearby, searching further back at a start and further on at an end, since Whisper's times run late. It crops the slide to everything drawn during the short (never right of x 1560 on the deck canvas) and finds the face with OpenCV for the camera crop. Set `"face": [cx, cy, width]` in `shorts.json` to place it by hand. The layout is composed in RGB, because overlaying the screen's YUV on a YUV page shifted the slide's white by 3 levels and drew a box around it.
 
+## Uploading shorts
+
+`post/youtube.py` uploads a short to the Josh Wade AI channel and schedules it. It uses Highstyle's OAuth client (Google project 386527410978), because uploads from a project made after 2020-07-28 stay private until Google audits it. The token lives in `~/.config/sketch-deck/youtube.json` (mode 600), outside this repo.
+
+```bash
+python3 post/youtube.py auth --client-env ~/code/clipper/.env    # once, Josh approves Google's screen
+python3 post/youtube.py short "02 my-topic" 1 --at "2026-10-20 12:00"            # dry run: prints title and description
+python3 post/youtube.py short "02 my-topic" 1 --at "2026-10-20 12:00" --confirm  # uploads, public at that local time
+python3 post/youtube.py list                                      # recent uploads, privacy and publish time
+```
+
+- Titles, descriptions, tags and the full-video link come from `work/shorts.json` (`title`, `description`, top-level `tags` and `full_video`).
+- Every upload is recorded in `shorts/uploads.json`, and the script refuses one that's already there.
+- Before each upload it checks that the token still posts to the channel it was connected to.
+- One short a day is the plan. The project's limit is 100 uploads a day, shared with the Highstyle channels.
+
 ## Also part of a release
 
 - **Thumbnails:** `videos/<slug>/thumbnail.html` with `npm run thumb -- <slug> a b`. Use drawings and big text only, no face. Copy the PNGs into the release folder before running `finish`, so the review page shows them.
