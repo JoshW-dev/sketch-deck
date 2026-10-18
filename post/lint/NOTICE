@@ -1,0 +1,6 @@
+hookscore.py, hooks.json, title.py, retention.py and deadair.py come from https://github.com/Jakeschincariol/youtube-agent-skill at commit a2feb2104981a375ffd4f87ee04f4f5344ac43c6 (MIT, see LICENSE).
+
+Changed here:
+- title.py flags thumbnail text over 3 words (it was over 4, though its own message says 3 is the ceiling).
+- hooks.json "the-statistic" also matches a count before a noun ("993 job posts") and a dollar amount ("$1.95").
+- retention.py imports deadair.py from this folder.
